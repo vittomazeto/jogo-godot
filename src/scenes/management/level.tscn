@@ -1,0 +1,87 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://resources/floor.tres" type="TileSet" id=1]
+[ext_resource path="res://resources/normal_decoration_tile.tres" type="TileSet" id=2]
+[ext_resource path="res://resources/small_decoration_tiles.tres" type="TileSet" id=3]
+[ext_resource path="res://scenes/env/background.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/env/mask.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/management/level.gd" type="Script" id=7]
+[ext_resource path="res://scenes/env/enemy_spawner.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/interface/general/hud.tscn" type="PackedScene" id=9]
+
+[sub_resource type="Environment" id=1]
+background_mode = 4
+glow_enabled = true
+glow_hdr_threshold = 1.5
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 7 )
+
+[node name="LevelDesign" type="Node2D" parent="."]
+
+[node name="Floor" type="TileMap" parent="LevelDesign"]
+z_index = 1
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 3
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( 262144, 0, 0, 262145, 0, 1, 262146, 0, 1, 262147, 0, 1, 262148, 0, 1, 262149, 0, 1, 262150, 0, 1, 262151, 0, 1, 262152, 0, 1, 262153, 0, 2, 262157, 0, 0, 262158, 0, 1, 262159, 0, 1, 262160, 0, 1, 262161, 0, 2, 327680, 0, 131072, 327681, 0, 131073, 327682, 0, 131073, 327683, 0, 131073, 327684, 0, 131073, 327685, 0, 131073, 327686, 0, 131073, 327687, 0, 131073, 327688, 0, 131073, 327689, 0, 131074, 327693, 0, 131072, 327694, 0, 131073, 327695, 0, 131073, 327696, 0, 131073, 327697, 0, 131074, 458778, 0, 0, 458779, 0, 2, 524301, 0, 0, 524302, 0, 1, 524303, 0, 1, 524304, 0, 1, 524305, 0, 1, 524306, 0, 1, 524307, 0, 1, 524308, 0, 1, 524309, 0, 1, 524310, 0, 1, 524311, 0, 1, 524312, 0, 1, 524313, 0, 1, 524314, 0, 0, 524315, 0, 65538, 589837, 0, 131072, 589838, 0, 131073, 589839, 0, 131073, 589840, 0, 131073, 589841, 0, 131073, 589842, 0, 131073, 589843, 0, 131073, 589844, 0, 131073, 589845, 0, 131073, 589846, 0, 131073, 589847, 0, 131073, 589848, 0, 131073, 589849, 0, 131073, 589850, 0, 131073, 589851, 0, 131074 )
+
+[node name="NormalDecorationTile" type="TileMap" parent="LevelDesign"]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( 131076, 2, 0, 196609, 0, 0, 196613, 0, 0, 196617, 4, 0, 196622, 4, 0, 196623, 0, 0, 196624, 5, 0, 393232, 2, 0, 393243, 5, 0, 458766, 5, 0, 458773, 3, 0, 458774, 0, 0 )
+
+[node name="SmallDecorationTile" type="TileMap" parent="LevelDesign"]
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 458754, 1, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458760, 1, 0, 458765, 0, 0, 458766, 0, 0, 458767, 0, 0, 458768, 0, 0, 458769, 0, 0, 458779, 1, 0, 458781, 1, 0, 458782, 1, 0, 458786, 2, 0, 983070, 2, 0, 983071, 2, 0, 983072, 2, 0, 983081, 0, 0, 983082, 0, 0, 983088, 1, 0, 983089, 1, 0, 983091, 1, 0 )
+
+[node name="Background" parent="." instance=ExtResource( 4 )]
+
+[node name="Mask" parent="." instance=ExtResource( 5 )]
+color = Color( 0.121569, 0.121569, 0.121569, 1 )
+
+[node name="Player" parent="." instance=ExtResource( 6 )]
+position = Vector2( 33, 92 )
+wall_jump_speed = -150
+wall_gravity = 115
+wall_impulse_speed = 850
+
+[node name="Environment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="Enemy" type="Node2D" parent="."]
+
+[node name="EnemySpawner" parent="Enemy" instance=ExtResource( 8 )]
+position = Vector2( 165, 127 )
+enemies_list = [ [ "res://scenes/enemy/whale.tscn", -11.5, 1.0, 100 ] ]
+spawn_cooldown = 5.0
+enemy_amount = 1
+left_gap_position = -90
+right_gap_position = 90
+can_respawn = true
+
+[node name="EnemySpawner2" parent="Enemy" instance=ExtResource( 8 )]
+position = Vector2( 522, 123 )
+enemies_list = [ [ "res://scenes/enemy/whale.tscn", -11.5, 1.0, 35 ], [ "res://scenes/enemy/pink_star.tscn", -11.5, 36, 100 ] ]
+spawn_cooldown = 7.0
+enemy_amount = 1
+left_gap_position = -70
+right_gap_position = 40
+can_respawn = true
+
+[node name="EnemySpawner3" parent="Enemy" instance=ExtResource( 8 )]
+position = Vector2( 640, 255 )
+enemies_list = [ [ "res://scenes/enemy/whale.tscn", -11.5, 1.0, 32 ], [ "res://scenes/enemy/pink_star.tscn", -11.5, 33, 68 ], [ "res://scenes/enemy/crabby.tscn", -11.5, 69, 100 ] ]
+spawn_cooldown = 8.0
+enemy_amount = 2
+left_gap_position = -133
+right_gap_position = 120
+can_respawn = true
+
+[node name="Hud" parent="." instance=ExtResource( 9 )]
